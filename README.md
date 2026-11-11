@@ -1,158 +1,141 @@
 # Single-Phase Five-Level and Seven-Level Multilevel Inverter
 
-## Overview
+## Project Overview
 
-This project presents the modelling and simulation of **single-phase
-five-level and seven-level multilevel inverters** using MATLAB/Simulink.
-The models are used to observe inverter switching behaviour and output
-waveforms, and to study the harmonic content of the output voltage using
-FFT analysis.
+This project explores the modelling and simulation of two **single-phase multilevel inverter configurations** in MATLAB/Simulink:
 
-The repository contains the Simulink models and the corresponding
-simulation result images.
+- A five-level inverter
+- A seven-level asymmetrical inverter
 
-## Project Objectives
+The models use carrier-based pulse-width modulation (PWM) to control the power switches. The output voltage waveforms and their harmonic content are examined through simulation, including FFT analysis using the `powergui` tool.
 
--   Develop and simulate a single-phase five-level inverter.
--   Develop and simulate a single-phase seven-level inverter.
--   Observe the PWM/switching signals and output voltage waveforms.
--   Perform FFT analysis of the output voltage.
--   Examine the harmonic spectrum and Total Harmonic Distortion (THD).
+The aim was to understand how multilevel output waveforms are formed, how PWM controls the switching pattern, and how the harmonic performance changes between the two configurations.
 
-## Tools and Technologies
+## Software and Tools
 
--   MATLAB
--   Simulink
--   Simscape Electrical / Specialized Power Systems (as applicable to
-    the model)
--   `powergui` FFT Analysis
+- MATLAB
+- Simulink
+- Simscape Electrical / Specialized Power Systems
+- `powergui` FFT Analysis
 
-## Repository Structure
+## Repository Contents
 
-``` text
+```text
 Multilevel_Inverter_project/
 ├── Models/
 │   ├── Five_Level_Inverter.slx
 │   └── Seven_Level_Asymmetrical.slx
 ├── Results/
-│   ├── [Five-level output-voltage waveform]
-│   ├── [Seven-level output-voltage waveform]
-│   ├── [Five-level FFT result]
-│   ├── [Seven-level FFT result]
-│   └── [PWM/switching waveform images]
+│   ├── Five_Level_Model.png
+│   ├── Five_Level_Output_Voltage.png
+│   ├── PWM_5_Level.png
+│   ├── FFT_Analysis_5_Level.png
+│   ├── Seven_Level_Model.png
+│   ├── Seven_Level_Output_Voltage.png
+│   ├── PWM_7_Level_Asymmetrical.png
+│   └── FFT_Analysis_7_Level.png
 └── README.md
 ```
 
-> The filenames shown in the Results folder above are descriptions, not
-> exact filenames. Replace the placeholders with the actual image
-> filenames in your repository.
+## 1. Five-Level Single-Phase Inverter
 
-## Inverter Models
+The five-level Simulink model and its simulation results are shown below.
 
-### 1. Five-Level Single-Phase Inverter
+### Simulink Model
 
-The five-level Simulink model is provided in
-`Models/Five_Level_Inverter.slx`.
+![Five-level inverter Simulink model](Results/Five_Level_Model.png)
 
-**Model image:** Add a screenshot of the five-level Simulink circuit
-here.
+### Output Voltage
 
-``` markdown
-![Five-level inverter model](Results/Five_Level_Model.png)
-```
+![Five-level output voltage waveform](Results/Five_Level_Output_Voltage.png)
 
-**Output waveform:** Add the output-voltage waveform image here.
+### PWM Signals
 
-``` markdown
-![Five-level output voltage](Results/Five_Level_Output_Voltage.png)
-```
+![Five-level PWM signals](Results/PWM_5_Level.png)
 
-**FFT result:** Add the FFT analysis screenshot here.
+### FFT Analysis
 
-``` markdown
-![Five-level FFT analysis](Results/FFT_Analysis_5_Level.png)
-```
+![Five-level FFT spectrum](Results/FFT_Analysis_5_Level.png)
 
-### 2. Seven-Level Single-Phase Inverter
+The `powergui` FFT result reports a **50 Hz fundamental component** with a displayed fundamental magnitude of **191.1** and **30.44% THD**.
 
-The seven-level Simulink model is provided in
-`Models/Seven_Level_inverter_Asymmetrical.slx`.
+## 2. Seven-Level Asymmetrical Single-Phase Inverter
 
-**Model image:** Add a screenshot of the seven-level Simulink circuit
-here.
+The second model is a seven-level **asymmetrical** inverter. Its Simulink model and simulation results are shown below.
 
-``` markdown
-![Seven-level inverter model](Results/Seven_Level_Model.png)
-```
+### Simulink Model
 
-**Output waveform:** Add the output-voltage waveform image here.
+![Seven-level inverter Simulink model](Results/Seven_Level_Model.png)
 
-``` markdown
-![Seven-level output voltage](Results/Seven_Level_Output_Voltage.png)
-```
+### Output Voltage
 
-**FFT result:** Add the FFT analysis screenshot here.
+![Seven-level output voltage waveform](Results/Seven_Level_Output_Voltage.png)
 
-``` markdown
-![Seven-level FFT analysis](Results/FFT_Analysis_7_Level.png)
-```
+### PWM Signals
 
-## FFT Analysis
+![Seven-level asymmetrical PWM signals](Results/PWM_7_Level_Asymmetrical.png)
 
-FFT (Fast Fourier Transform) analysis is used to examine the frequency
-components present in the inverter output voltage. The analysis can be
-used to identify harmonic components and obtain the Total Harmonic
-Distortion (THD).
+### FFT Analysis
 
-For a 50 Hz fundamental output, the harmonic frequencies occur at
-integer multiples of 50 Hz (for example, the 3rd harmonic is 150 Hz and
-the 5th harmonic is 250 Hz).
+![Seven-level FFT spectrum](Results/FFT_Analysis_7_Level.png)
 
-**THD results:** Measured values from the powergui FFT
-Analysis tool after running each model.
+The `powergui` FFT result reports a **50 Hz fundamental component** with a displayed fundamental magnitude of **290.4** and **20.13% THD**.
 
-  -----------------------------------------------------------------------
-  Inverter                Fundamental frequency                       THD
-  configuration                                 
-  ------------------- ------------------------- -------------------------
-  Five-level,             50 Hz                                   30.44%
-  single-phase  
-  (Symmetrical)                                
+## 3. PWM Technique
 
-  Seven-level,            50 Hz                                   20.13%
-  single-phase 
-  (Asymmetrical)                                 
-  -----------------------------------------------------------------------
+The models use **carrier-based, level-shifted PWM**. A low-frequency sinusoidal reference is compared with multiple high-frequency triangular carrier signals arranged in vertically displaced bands. The comparison signals are used to generate the switching pulses that produce the required output voltage levels.
 
+In a level-shifted carrier arrangement, the number of carrier bands is related to the number of output voltage levels:
 
-## How to Run the Models
+- Five-level output: four carrier bands.
+- Seven-level output: six carrier bands.
 
-1.  Install a compatible version of MATLAB and Simulink, with the
-    required electrical power-system libraries.
-2.  Clone or download this repository.
-3.  Open MATLAB and set the repository folder as the current working
-    folder.
-4.  Open the required `.slx` file from the `Models` folder.
-5.  Check that the model's required blocks and simulation settings are
-    available.
-6.  Run the simulation and inspect the output voltage and switching
-    waveforms.
-7.  Open the `powergui` block and use **FFT Analysis** to examine the
-    output-voltage harmonics, if the model uses Specialized Power
-    Systems.
+The carrier arrangement visible in the provided PWM plots is consistent with a Phase Disposition (PD) style arrangement, in which the triangular carriers are in phase with one another and shifted vertically. The reference signal and carrier settings determine the switching instants and therefore affect the output waveform and harmonic spectrum.
+
+## 4. Symmetrical vs. Asymmetrical Multilevel Inverters
+
+The main distinction is the magnitude of the separate DC input sources.
+
+| Feature | Symmetrical configuration | Asymmetrical configuration |
+|---|---|---|
+| DC source magnitudes | Sources have equal voltage magnitudes | Sources have unequal voltage magnitudes |
+| Source arrangement | Identical DC input values | Different DC input values, often selected in a defined ratio |
+| Level generation | Uses the combination of equal sources and switching states | Uses the combination of unequal sources and switching states |
+| Design consideration | Simpler and more uniform source arrangement | Can produce more output levels with a suitable source ratio and switching arrangement |
+| Practical trade-off | May require more sources/switching devices for a given number of levels | Source selection and voltage balancing/control can be more involved |
+
+This repository includes a five-level model and a seven-level asymmetrical model. The table explains the general distinction; the exact DC-source values and ratios should be taken from the parameters in each Simulink model.
+
+## 5. FFT and THD Results
+
+FFT analysis is used to inspect the frequency components of the output voltage. Total Harmonic Distortion (THD) expresses the combined RMS contribution of the harmonic components relative to the fundamental component.
+
+The values below are transcribed from the supplied `powergui` FFT screenshots.
+
+| Inverter model | Fundamental frequency | Fundamental magnitude shown | THD shown |
+|---|---:|---:|---:|
+| Five-level | 50 Hz | 191.1 | 30.44% |
+| Seven-level asymmetrical | 50 Hz | 290.4 | 20.13% |
+
+In these displayed simulation results, the seven-level asymmetrical model has the lower THD: **20.13% compared with 30.44%** for the five-level model. This is a comparison of the supplied simulation results, not a claim that every seven-level inverter will always have lower THD. THD depends on the DC-source values, modulation index, carrier frequency, switching strategy, load, solver settings and the steady-state interval selected for FFT analysis.
+
+## 6. How to Run the Models
+
+1. Open MATLAB and make sure the required Simulink and electrical power-system libraries are installed.
+2. Open the repository folder in MATLAB.
+3. Open the relevant `.slx` file from the `Models` folder.
+4. Check that the model parameters and required blocks are available in your MATLAB release.
+5. Run the simulation and inspect the output voltage and PWM signals.
+6. To repeat the harmonic analysis, open the model's `powergui` block and select **FFT Analysis**.
+7. Select the output-voltage signal, set the fundamental frequency to 50 Hz, and analyse a steady-state portion of the simulation.
 
 ## Notes
 
--   Both inverter configurations in this project are **single-phase**,
-    not three-phase.
--   Simulation results depend on the switching strategy, circuit
-    parameters, solver settings and simulation time.
--   The FFT analysis should be performed on a steady-state portion of
-    the waveform.
--   The `.slx` models may require the MATLAB release and toolboxes used
-    to create them.
+- Both models are **single-phase**; they are not three-phase inverter models.
+- The seven-level model is identified as asymmetrical in the model filename.
+- The THD values in this README are the values visible in the supplied FFT screenshots. Re-run FFT analysis if the model parameters or simulation conditions are changed.
+- The `.slx` files may require a compatible MATLAB release and the toolboxes used to build the models.
 
+## Author
 
-------------------------------------------------------------------------
-
-
+Electrical Engineering Student
